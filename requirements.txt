@@ -10,7 +10,8 @@ sympy==1.13.1
 torch==2.6.0+cpu
 torchaudio==2.6.0+cpu
 torchvision==0.21.0+cpu
-typing_extensions==4.12.2aiohappyeyeballs==2.4.8
+typing_extensions==4.12.2
+aiohappyeyeballs==2.4.8
 aiohttp==3.11.13
 aiosignal==1.3.2
 altair==5.5.0
