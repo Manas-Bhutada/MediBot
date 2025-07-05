@@ -46,7 +46,7 @@ db=FAISS.load_local(DB_FAISS_PATH,embedding_model,allow_dangerous_deserializatio
 #create QA chain
 
 qa_chain=RetrievalQA.from_chain_type(
-    llm=load_llm(HUGGINGFACE_REPO_ID),
+    llm=load_llm(),
     chain_type="stuff",
     retriever=db.as_retriever(search_kwargs={'k':3}),
     return_source_documents=True,

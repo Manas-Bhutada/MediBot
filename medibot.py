@@ -82,7 +82,7 @@ def main():
                 st.error("⚠️ Failed to load the vector store")
 
             qa_chain = RetrievalQA.from_chain_type(
-                llm=load_llm(huggingface_repo_id=HUGGINGFACE_REPO_ID, hf_token=HF_TOKEN),
+                llm=load_llm(),
                 chain_type="stuff",
                 retriever=vectorstore.as_retriever(search_kwargs={'k': 3}),
                 return_source_documents=True,
