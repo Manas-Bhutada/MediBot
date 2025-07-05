@@ -70,7 +70,7 @@ def main():
         Start the answer directly. No small talk.
         """
 
-        HUGGINGFACE_REPO_ID = "mistralai/Mistral-7B-Instruct-v0.1"
+        HUGGINGFACE_REPO_ID = "mistralai/Mistral-7B-Instruct-v0.3"
         HF_TOKEN = os.environ.get("HF_TOKEN")
 
         try:
