@@ -23,13 +23,15 @@ def set_custom_prompt(custom_prompt_template):
     prompt = PromptTemplate(template=custom_prompt_template, input_variables=["context", "question"])
     return prompt
 
-def load_llm(huggingface_repo_id, hf_token):
-    llm = HuggingFaceEndpoint(
-        repo_id=huggingface_repo_id,
+def load_llm():
+    return HuggingFaceEndpoint(
+        repo_id="mistralai/Mixtral-8x7B-Instruct-v0.1",
         temperature=0.5,
-        model_kwargs={"token": hf_token, "max_length": "512"}
+        model_kwargs={
+            "max_new_tokens": 512,
+            "token": os.getenv("HF_TOKEN")
+        }
     )
-    return llm
 
 def main():
     st.title("🤖 AI Medical Chatbot")
@@ -70,7 +72,8 @@ def main():
         Start the answer directly. No small talk.
         """
 
-        HUGGINGFACE_REPO_ID = "mistralai/Mistral-7B-Instruct-v0.3"
+        HUGGINGFACE_REPO_ID = "mistralai/Mixtral-8x7B-Instruct-v0.1"
+
         HF_TOKEN = os.environ.get("HF_TOKEN")
 
         try:
