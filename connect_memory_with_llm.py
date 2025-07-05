@@ -8,17 +8,17 @@ from langchain_community.vectorstores import FAISS
 #step 1 setup llm mistral with huggingface
 
 HF_TOKEN=os.environ.get("HF_TOKEN")
-HUGGINGFACE_REPO_ID="mistralai/Mixtral-8x7B-Instruct-v0.1"
+HUGGINGFACE_REPO_ID="mistralai/Mistral-7B-Instruct-v0.3"
 
 def load_llm():
     return HuggingFaceEndpoint(
-        repo_id="mistralai/Mixtral-8x7B-Instruct-v0.1",
+        repo_id="mistralai/Mistral-7B-Instruct-v0.3",
         temperature=0.5,
-        model_kwargs={
-            "max_new_tokens": 512,
-            "token": os.getenv("HF_TOKEN")
-        }
+        max_new_tokens=512,                    # ← directly here
+        token=os.getenv("HF_TOKEN")            # ← directly here
     )
+
+
 
 #step 2 connect llm with faiss and create chain
 
@@ -39,7 +39,11 @@ def set_custom_prompt(CUSTOM_PROMPT_TEMPLATE):
     
     return prompt
 DB_FAISS_PATH="vectorstore/db_faiss"
-embedding_model=HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+embedding_model = HuggingFaceEmbeddings(
+    model_name="sentence-transformers/all-MiniLM-L6-v2",
+    pipeline="sentence-similarity",
+    huggingfacehub_api_token=os.getenv("HF_TOKEN")
+)
 
 db=FAISS.load_local(DB_FAISS_PATH,embedding_model,allow_dangerous_deserialization=True) #idhar true isliye kyuki secured source of info h 
 

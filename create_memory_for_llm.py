@@ -2,11 +2,13 @@ from langchain_community.document_loaders import PyPDFLoader,DirectoryLoader
 
 from langchain.text_splitter import RecursiveCharacterTextSplitter 
 
-from langchain_huggingface import HuggingFaceEmbeddings 
+from langchain.embeddings import SentenceTransformerEmbeddings
 
 from langchain_community.vectorstores import FAISS
 
 from dotenv import load_dotenv, find_dotenv
+
+import os 
 
 load_dotenv(find_dotenv())
 #step 1 pdf ke pages load kar rha hu
@@ -34,8 +36,9 @@ print("length of text chunks",len(text_chunks))
 
 
 def get_embedding_model():
-    embedding_model=HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
-    return embedding_model
+   embedding_model = SentenceTransformerEmbeddings(model_name="all-MiniLM-L6-v2")
+   
+   return embedding_model
 
 embedding_model=get_embedding_model()
 
