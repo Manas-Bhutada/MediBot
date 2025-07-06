@@ -25,7 +25,7 @@ def get_login_url():
 def fetch_tokens(code):
     client_id = os.getenv("GOOGLE_CLIENT_ID")
     client_secret = os.getenv("GOOGLE_CLIENT_SECRET")
-    redirect_uri = "http://localhost:8501"
+    redirect_uri = "https://medibot-kvlmhodraxtdebnqqqhxum.streamlit.app"
 
     token_url = "https://oauth2.googleapis.com/token"
     data = {
