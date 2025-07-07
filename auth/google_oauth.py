@@ -1,5 +1,3 @@
-# auth/google_oauth.py
-
 import os
 import streamlit as st
 import requests
@@ -7,7 +5,7 @@ from urllib.parse import urlencode
 
 def get_login_url():
     client_id = os.getenv("GOOGLE_CLIENT_ID")
-    redirect_uri = "http://localhost:8501"
+    redirect_uri = "https://medibot-kvlmhodraxtdebnqqqhxum.streamlit.app"
     scope = "openid email profile"
     auth_url = "https://accounts.google.com/o/oauth2/v2/auth"
 
@@ -25,7 +23,7 @@ def get_login_url():
 def fetch_tokens(code):
     client_id = os.getenv("GOOGLE_CLIENT_ID")
     client_secret = os.getenv("GOOGLE_CLIENT_SECRET")
-    redirect_uri = "http://localhost:8501"
+    redirect_uri = "https://medibot-kvlmhodraxtdebnqqqhxum.streamlit.app"
 
     token_url = "https://oauth2.googleapis.com/token"
     data = {
