@@ -1,13 +1,8 @@
 from langchain_community.document_loaders import PyPDFLoader,DirectoryLoader
-
 from langchain.text_splitter import RecursiveCharacterTextSplitter 
-
 from langchain.embeddings import SentenceTransformerEmbeddings
-
 from langchain_community.vectorstores import FAISS
-
 from dotenv import load_dotenv, find_dotenv
-
 import os 
 
 load_dotenv(find_dotenv())

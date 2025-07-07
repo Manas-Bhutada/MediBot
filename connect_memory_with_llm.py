@@ -17,11 +17,10 @@ def load_llm():
         max_new_tokens=512,                    # ← directly here
         token=os.getenv("HF_TOKEN")            # ← directly here
     )
-
+    
 
 
 #step 2 connect llm with faiss and create chain
-
 
 CUSTOM_PROMPT_TEMPLATE = """
 Use the pieces of information provided in the context to answer user's question.
@@ -38,6 +37,7 @@ def set_custom_prompt(CUSTOM_PROMPT_TEMPLATE):
     prompt=PromptTemplate(template=CUSTOM_PROMPT_TEMPLATE,input_variables=["context","question"])
     
     return prompt
+
 DB_FAISS_PATH="vectorstore/db_faiss"
 embedding_model = HuggingFaceEmbeddings(
     model_name="sentence-transformers/all-MiniLM-L6-v2",

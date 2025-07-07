@@ -49,7 +49,7 @@ def main():
     st.set_page_config(page_title="MediBot", page_icon="🧠")
     st.title("🤖 AI Medical Chatbot")
 
-    # Initialize session states
+    # Initialize session states 
     if "authenticated" not in st.session_state:
         st.session_state.authenticated = False
     if "user_info" not in st.session_state:
