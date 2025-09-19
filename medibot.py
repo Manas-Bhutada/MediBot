@@ -2,13 +2,12 @@ import os
 import streamlit as st
 import warnings
 from dotenv import load_dotenv, find_dotenv
-from urllib.parse import urlencode
 
 from langchain.embeddings import SentenceTransformerEmbeddings
 from langchain.chains import RetrievalQA
 from langchain_community.vectorstores import FAISS
 from langchain_core.prompts import PromptTemplate
-from langchain_huggingface import HuggingFaceEndpoint
+from langchain_google_genai import ChatGoogleGenerativeAI   # ✅ Gemini integration
 
 from auth.google_oauth import get_login_url, fetch_tokens, get_user_info
 
@@ -22,6 +21,7 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 # Path to FAISS DB
 DB_FAISS_PATH = "vectorstore/db_faiss"
 
+
 @st.cache_resource
 def get_vectorstore():
     embedding_model = SentenceTransformerEmbeddings(
@@ -34,16 +34,19 @@ def get_vectorstore():
     )
     return db
 
+
 def set_custom_prompt(custom_prompt_template):
     return PromptTemplate(template=custom_prompt_template, input_variables=["context", "question"])
 
+
 def load_llm():
-    return HuggingFaceEndpoint(
-        repo_id="mistralai/Mistral-7B-Instruct-v0.3",
+    return ChatGoogleGenerativeAI(
+        model="gemini-1.5-flash",    # or "gemini-1.5-flash" for faster/cheaper inference
         temperature=0.5,
-        max_new_tokens=512,
-        token=os.getenv("HF_TOKEN")
+        max_output_tokens=512,
+        google_api_key=os.getenv("GEMINI_API_KEY")   
     )
+
 
 def main():
     st.set_page_config(page_title="MediBot", page_icon="🧠")
@@ -111,15 +114,21 @@ def main():
 
         # Prompt Template
         CUSTOM_PROMPT_TEMPLATE = """
-        Use the pieces of information provided in the context to answer the user's question.
-        If you don't know the answer, just say that you don't know; don't make up an answer.
-        Stick strictly to the given context.
+You are a medical assistant. Use ONLY the information provided in the context to answer the question.
+- Cover all relevant points from the context (do not skip important details).  
+- If the answer is not found in the context, respond with: "I don’t know based on the provided information."  
+- Format the response in a clear, structured, and professional way (use short paragraphs or bullet points where helpful).  
+- Do not include extra text, disclaimers, or small talk.
 
-        Context: {context}
-        Question: {question}
+Context:
+{context}
 
-        Start the answer directly. No small talk.
-        """
+Question:
+{question}
+
+Answer:
+"""
+
 
         try:
             vectorstore = get_vectorstore()
@@ -145,6 +154,7 @@ def main():
 
         except Exception as e:
             st.error(f"❌ Error: {str(e)}")
+
 
 if __name__ == "__main__":
     main()

@@ -1,20 +1,20 @@
 import os
 from langchain_huggingface import HuggingFaceEndpoint
 from langchain_core.prompts import PromptTemplate
-from langchain.chains import RetrievalQA
+from langchain.chains import RetrievalQA                 
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 
 #step 1 setup llm mistral with huggingface
 
-HF_TOKEN=os.environ.get("HF_TOKEN")
-HUGGINGFACE_REPO_ID="mistralai/Mistral-7B-Instruct-v0.3"
+HF_TOKEN = os.environ.get("HF_TOKEN")
+HUGGINGFACE_REPO_ID="gemini-1.5-flash"
 
 def load_llm():
     return HuggingFaceEndpoint(
-        repo_id="mistralai/Mistral-7B-Instruct-v0.3",
+        repo_id="gemini-1.5-flash",
         temperature=0.5,
-        max_new_tokens=512,                    # ← directly here
+        max_new_tokens=200,                    # ← directly here
         token=os.getenv("HF_TOKEN")            # ← directly here
     )
     
@@ -38,10 +38,10 @@ def set_custom_prompt(CUSTOM_PROMPT_TEMPLATE):
     
     return prompt
 
-DB_FAISS_PATH="vectorstore/db_faiss"
+DB_FAISS_PATH = "vectorstore/db_faiss"
 embedding_model = HuggingFaceEmbeddings(
-    model_name="sentence-transformers/all-MiniLM-L6-v2",
-    pipeline="sentence-similarity",
+    model_name = "sentence-transformers/all-MiniLM-L6-v2",
+    pipeline = "sentence-similarity",
     huggingfacehub_api_token=os.getenv("HF_TOKEN")
 )
 
